@@ -15,6 +15,8 @@ interface SortableWorkspaceItemProps {
 	sortableId: string;
 	workspace: DashboardSidebarWorkspace;
 	accentColor?: string | null;
+	/** Distance from the sidebar edge to the group header's chevron centre. */
+	railOffset?: number;
 	isInSection?: boolean;
 	indentation?: DashboardSidebarWorkspaceIndentation;
 	onHoverCardOpen?: (workspaceId: string) => void | Promise<void>;
@@ -42,6 +44,7 @@ export function SortableWorkspaceItem({
 	sortableId,
 	workspace,
 	accentColor,
+	railOffset = 40,
 	isInSection,
 	indentation,
 	onHoverCardOpen,
@@ -101,7 +104,10 @@ export function SortableWorkspaceItem({
 				transform: CSS.Translate.toString(transform),
 				transition,
 				opacity: isDragging || isDragPlaceholder ? 0.5 : undefined,
-				boxShadow: accentColor ? `inset 3px 0 ${accentColor}` : undefined,
+				marginLeft: accentColor ? railOffset - 1 : undefined,
+				boxShadow: accentColor
+					? `inset 1.5px 0 color-mix(in srgb, ${accentColor} 40%, transparent)`
+					: undefined,
 			}}
 			{...getBlockedDragProps(isChildDragDisabled)}
 			{...attributes}

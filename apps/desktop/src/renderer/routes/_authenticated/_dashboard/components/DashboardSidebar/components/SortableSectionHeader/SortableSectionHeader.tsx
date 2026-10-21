@@ -1,7 +1,7 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { SESSIONS_TAG_SCOPE } from "@superset/shared/workspace-tags";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useV2UserPreferences } from "renderer/hooks/useV2UserPreferences";
 import { useDashboardSidebarSectionRename } from "renderer/routes/_authenticated/_dashboard/components/DashboardSidebar/components/DashboardSidebarSectionRenameContext";
 import { useDashboardSidebarState } from "renderer/routes/_authenticated/hooks/useDashboardSidebarState";
@@ -10,6 +10,7 @@ import { RenameInput } from "renderer/screens/main/components/WorkspaceSidebar/R
 import { PROJECT_COLOR_DEFAULT } from "shared/constants/project-colors";
 import { getBlockedDragProps } from "../../hooks/useBlockedDragNotice";
 import { useDashboardSidebarDnd } from "../../hooks/useSidebarDnd";
+import { useWorkspaceAttentionCount } from "../../hooks/useWorkspaceAttentionCount";
 import type {
 	DashboardSidebarSection,
 	DashboardSidebarWorkspaceIndentation,
@@ -19,6 +20,7 @@ import {
 	DashboardSidebarSectionActionsDropdown,
 	DashboardSidebarSectionContextMenu,
 } from "../DashboardSidebarSection/components/DashboardSidebarSectionContextMenu";
+import { SidebarCounts } from "../SidebarCounts";
 
 interface SortableSectionHeaderProps {
 	sortableId: string;
@@ -64,6 +66,11 @@ export function SortableSectionHeader({
 
 	const hasColor =
 		section.color != null && section.color !== PROJECT_COLOR_DEFAULT;
+	const workspaceIds = useMemo(
+		() => section.workspaces.map((workspace) => workspace.id),
+		[section.workspaces],
+	);
+	const attentionCount = useWorkspaceAttentionCount(workspaceIds);
 
 	const handleSubmitRename = () => {
 		const trimmed = renameValue.trim();
@@ -93,9 +100,6 @@ export function SortableSectionHeader({
 				transform: CSS.Translate.toString(transform),
 				transition,
 				opacity: isDragging ? 0.5 : undefined,
-				boxShadow: hasColor
-					? `inset 3px 0 ${section.color}`
-					: "inset 2px 0 var(--color-border)",
 			}}
 			{...getBlockedDragProps(isChildDragDisabled)}
 		>
@@ -122,6 +126,13 @@ export function SortableSectionHeader({
 						) : (
 							<span className="truncate">{section.name}</span>
 						)
+					}
+					groupColor={hasColor ? section.color : null}
+					meta={
+						<SidebarCounts
+							attention={attentionCount}
+							total={section.workspaces.length}
+						/>
 					}
 					isCollapsed={section.isCollapsed}
 					isEditing={isRenaming}

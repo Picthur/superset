@@ -1,6 +1,7 @@
 import { cn } from "@superset/ui/utils";
 import {
 	type ComponentPropsWithoutRef,
+	type CSSProperties,
 	forwardRef,
 	type ReactNode,
 } from "react";
@@ -13,6 +14,10 @@ interface DashboardSidebarGroupHeaderProps
 	isCollapsed: boolean;
 	onToggleCollapse: () => void;
 	actions?: ReactNode;
+	/** Counters shown before the actions, right-aligned. */
+	meta?: ReactNode;
+	/** Group colour: tints the header and drives the dot. Null/default = neutral. */
+	groupColor?: string | null;
 	isEditing?: boolean;
 	isDraggable?: boolean;
 	/**
@@ -33,10 +38,13 @@ export const DashboardSidebarGroupHeader = forwardRef<
 			isCollapsed,
 			onToggleCollapse,
 			actions,
+			meta,
+			groupColor = null,
 			isEditing = false,
 			isDraggable = false,
 			indentation = "workspace",
 			className,
+			style,
 			...props
 		},
 		ref,
@@ -57,10 +65,21 @@ export const DashboardSidebarGroupHeader = forwardRef<
 							}
 						}
 			}
+			style={
+				groupColor
+					? ({
+							"--group-color": groupColor,
+							backgroundColor:
+								"color-mix(in srgb, var(--group-color) 13%, transparent)",
+							...style,
+						} as CSSProperties)
+					: style
+			}
 			className={cn(
-				// Group containers have a 2px left accent border. Use a 6px left
-				// margin so their content aligns with borderless top-level rows.
-				"group ml-1.5 mr-2 flex min-h-7 items-center rounded-md py-1 pr-2 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-fill-hover",
+				"group ml-1.5 mr-2 flex min-h-7 items-center rounded-md py-1 pr-2 text-[13px] font-medium transition-colors",
+				groupColor
+					? "text-foreground hover:!bg-[color-mix(in_srgb,var(--group-color)_20%,transparent)]"
+					: "text-muted-foreground hover:bg-fill-hover",
 				// Mirrors DashboardSidebarExpandedWorkspaceRow's per-lane padding.
 				indentation === "top-level" ? "pl-2" : "pl-6",
 				className,
@@ -80,7 +99,21 @@ export const DashboardSidebarGroupHeader = forwardRef<
 					)}
 				/>
 			</div>
-			<div className="flex min-w-0 flex-1 items-center gap-1.5">{label}</div>
+			<div className="flex min-w-0 flex-1 items-center gap-1.5">
+				{groupColor ? (
+					<span
+						aria-hidden
+						className="size-2 shrink-0 rounded-full"
+						style={{ backgroundColor: groupColor }}
+					/>
+				) : null}
+				{label}
+			</div>
+			{meta ? (
+				<div className="ml-1 shrink-0 text-xs tabular-nums text-muted-foreground">
+					{meta}
+				</div>
+			) : null}
 			{!isEditing && (
 				<div className="ml-1 flex size-5 shrink-0 items-center justify-center">
 					{actions ? (

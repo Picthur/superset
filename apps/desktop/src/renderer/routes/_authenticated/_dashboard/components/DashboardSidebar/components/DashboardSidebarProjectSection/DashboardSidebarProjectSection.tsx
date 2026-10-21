@@ -5,6 +5,7 @@ import type {
 import { AnimatePresence, motion } from "framer-motion";
 import { useMemo } from "react";
 import { DeleteProjectDialog } from "renderer/routes/_authenticated/components/DeleteProjectDialog";
+import { useWorkspaceAttentionCount } from "../../hooks/useWorkspaceAttentionCount";
 import type { DashboardSidebarProject } from "../../types";
 import { getProjectChildrenWorkspaces } from "../../utils/projectChildren";
 import { DashboardSidebarCollapsedProjectContent } from "./components/DashboardSidebarCollapsedProjectContent";
@@ -72,6 +73,11 @@ export function DashboardSidebarProjectSection({
 
 	const isCloudRepo = project.kind === "cloud-repo";
 	const totalWorkspaceCount = flattenedCollapsedWorkspaces.length;
+	const workspaceIds = useMemo(
+		() => flattenedCollapsedWorkspaces.map((workspace) => workspace.id),
+		[flattenedCollapsedWorkspaces],
+	);
+	const attentionCount = useWorkspaceAttentionCount(workspaceIds);
 
 	const deleteProjectDialog = canDeleteProject && (
 		<DeleteProjectDialog
@@ -147,6 +153,8 @@ export function DashboardSidebarProjectSection({
 					projectName={project.name}
 					iconUrl={project.iconUrl}
 					projectColor={project.color}
+					workspaceCount={totalWorkspaceCount}
+					attentionCount={attentionCount}
 					isCollapsed={project.isCollapsed}
 					isRenaming={isRenaming}
 					renameValue={renameValue}

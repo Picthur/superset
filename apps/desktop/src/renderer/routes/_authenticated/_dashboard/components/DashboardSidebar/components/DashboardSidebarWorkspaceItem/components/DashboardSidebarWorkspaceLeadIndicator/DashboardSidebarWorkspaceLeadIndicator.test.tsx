@@ -47,7 +47,7 @@ test("an idle row shows its pull request state, else a quiet dot", () => {
 	const idle = renderLead({});
 	expect(idle.querySelector("svg")).toBeNull();
 	expect(idle.querySelector("span.rounded-full")?.className).toContain(
-		"bg-muted-foreground/50",
+		"ring-muted-foreground/50",
 	);
 });
 

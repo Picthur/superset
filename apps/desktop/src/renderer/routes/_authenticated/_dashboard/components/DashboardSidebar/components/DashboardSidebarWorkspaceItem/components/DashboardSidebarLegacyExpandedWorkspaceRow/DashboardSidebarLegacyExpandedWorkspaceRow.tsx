@@ -35,6 +35,7 @@ import { DashboardSidebarPortsChip } from "../DashboardSidebarExpandedWorkspaceR
 import { DashboardSidebarRowEventBoundary } from "../DashboardSidebarExpandedWorkspaceRow/components/DashboardSidebarRowEventBoundary";
 import { DashboardSidebarWorkspaceChips } from "../DashboardSidebarExpandedWorkspaceRow/components/DashboardSidebarWorkspaceChips";
 import { DashboardSidebarWorkspaceIcon } from "../DashboardSidebarWorkspaceIcon";
+import { DashboardSidebarWorkspaceLeadIndicator } from "../DashboardSidebarWorkspaceLeadIndicator";
 import { DashboardSidebarWorkspaceQueuedBadge } from "../DashboardSidebarWorkspaceQueuedBadge";
 import { DashboardSidebarWorkspaceDiffStats } from "./components/DashboardSidebarWorkspaceDiffStats";
 
@@ -159,6 +160,29 @@ export const DashboardSidebarLegacyExpandedWorkspaceRow = forwardRef<
 		const creationStatusText = isPending ? "Creating…" : null;
 		const isLocalWorkspace = workspace.type === "local";
 
+		const leadFor = (
+			pullRequestState: DashboardSidebarWorkspacePullRequest["state"] | null,
+		) =>
+			hostType === "local-device" ? (
+				<DashboardSidebarWorkspaceLeadIndicator
+					workspaceStatus={workspaceStatus}
+					isCreatePending={isPending}
+					sandboxStatus={workspace.sandboxStatus}
+					pullRequestState={pullRequestState}
+				/>
+			) : (
+				<DashboardSidebarWorkspaceIcon
+					hostType={hostType}
+					workspaceType={workspace.type}
+					hostIsOnline={hostIsOnline}
+					isActive={isActive}
+					variant="expanded"
+					workspaceStatus={workspaceStatus}
+					isCreatePending={isPending}
+					pullRequestState={pullRequestState}
+				/>
+			);
+
 		return (
 			<div
 				ref={(node) => {
@@ -203,7 +227,7 @@ export const DashboardSidebarLegacyExpandedWorkspaceRow = forwardRef<
 						resolvedIndentation === "top-level"
 							? "pl-2"
 							: resolvedIndentation === "grouped"
-								? "pl-10"
+								? "pl-1"
 								: "pl-6",
 						onClick && "cursor-pointer",
 					)}
@@ -243,29 +267,11 @@ export const DashboardSidebarLegacyExpandedWorkspaceRow = forwardRef<
 										})}
 										className="relative mr-2 flex size-4 shrink-0 cursor-pointer items-center justify-center rounded hover:bg-foreground/10"
 									>
-										<DashboardSidebarWorkspaceIcon
-											hostType={hostType}
-											workspaceType={workspace.type}
-											hostIsOnline={hostIsOnline}
-											isActive={isActive}
-											variant="expanded"
-											workspaceStatus={workspaceStatus}
-											isCreatePending={isPending}
-											pullRequestState={pullRequest.state}
-										/>
+										{leadFor(pullRequest.state)}
 									</button>
 								) : (
 									<div className="relative mr-2 flex size-4 shrink-0 items-center justify-center">
-										<DashboardSidebarWorkspaceIcon
-											hostType={hostType}
-											workspaceType={workspace.type}
-											hostIsOnline={hostIsOnline}
-											isActive={isActive}
-											variant="expanded"
-											workspaceStatus={workspaceStatus}
-											isCreatePending={isPending}
-											pullRequestState={null}
-										/>
+										{leadFor(null)}
 									</div>
 								)}
 							</TooltipTrigger>

@@ -29,7 +29,9 @@ export function SidebarDragOverlay({
 		return (
 			<div
 				style={{
-					boxShadow: accentColor ? `inset 3px 0 ${accentColor}` : undefined,
+					boxShadow: accentColor
+						? `inset 1.5px 0 color-mix(in srgb, ${accentColor} 40%, transparent)`
+						: undefined,
 				}}
 			>
 				<DashboardSidebarWorkspaceItem workspace={activeItem.workspace} />
@@ -44,9 +46,9 @@ export function SidebarDragOverlay({
 	return (
 		<div
 			style={{
-				boxShadow: hasColor
-					? `inset 3px 0 ${section.color}`
-					: "inset 2px 0 var(--color-border)",
+				backgroundColor: hasColor
+					? `color-mix(in srgb, ${section.color} 13%, transparent)`
+					: undefined,
 			}}
 		>
 			<div className="flex min-h-8 w-full items-center gap-1.5 pl-0.5 pr-2 py-1.5 text-[11px] font-medium text-muted-foreground">
