@@ -126,6 +126,7 @@ export type PromptInputHandle = {
 	openFileDialog(): void;
 	openPanel(panel: ComposerPanelContent): void;
 	focus(): void;
+	blur(): void;
 };
 
 export type PromptInputProps = {

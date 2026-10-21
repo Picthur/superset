@@ -280,7 +280,10 @@ export const Composer = memo(function Composer({
 						icon: <History className="size-4" />,
 						group: t({ message: "Commands" }),
 						onSelect: () => {
-							queueMicrotask(onOpenHistory);
+							queueMicrotask(() => {
+								promptInputRef.current?.blur();
+								onOpenHistory();
+							});
 						},
 					}
 				: null,
@@ -373,7 +376,10 @@ export const Composer = memo(function Composer({
 			}
 			if (text.trim() === "/resume" && onOpenHistory) {
 				if (files.length > 0 || pastedTexts.length > 0) return false;
-				queueMicrotask(onOpenHistory);
+				queueMicrotask(() => {
+					input?.blur();
+					onOpenHistory();
+				});
 				return;
 			}
 			if (

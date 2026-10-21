@@ -267,6 +267,10 @@ export function ComposerBody({
 			focus() {
 				focusAtEnd();
 			},
+			blur() {
+				editor.update(() => $setSelection(null), { discrete: true });
+				editor.blur();
+			},
 		}),
 		[draftText, editor, focusAtEnd, pasted.restore, splitPastes],
 	);
