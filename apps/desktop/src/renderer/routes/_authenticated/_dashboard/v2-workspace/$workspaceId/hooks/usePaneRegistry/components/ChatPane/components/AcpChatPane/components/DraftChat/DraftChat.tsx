@@ -12,6 +12,7 @@ export function DraftChat({
 	draftKey,
 	isActive,
 	notice,
+	onOpenHistory,
 	onQueue,
 	queued,
 	workspaceId,
@@ -19,6 +20,7 @@ export function DraftChat({
 	draftKey: string;
 	isActive: boolean;
 	notice: ReactNode;
+	onOpenHistory?: () => void;
 	onQueue: (content: UserContent[]) => void;
 	queued: UserContent[][];
 	workspaceId: string;
@@ -33,6 +35,7 @@ export function DraftChat({
 				availableCommands={NO_COMMANDS}
 				draftKey={draftKey}
 				isActive={isActive}
+				onOpenHistory={onOpenHistory}
 				onSend={(content) => onQueue(content)}
 				promptQueue={promptQueue}
 				workspaceId={workspaceId}

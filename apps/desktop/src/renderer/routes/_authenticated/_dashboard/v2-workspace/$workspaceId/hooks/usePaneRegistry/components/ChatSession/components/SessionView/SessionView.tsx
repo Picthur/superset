@@ -80,6 +80,7 @@ export function SessionView({
 	openFile,
 	openPage,
 	openLink,
+	onOpenHistory,
 	workspaceId,
 }: {
 	client: SessionClient;
@@ -126,6 +127,8 @@ export function SessionView({
 	openFile?: OpenFile;
 	openPage?: OpenPage;
 	openLink?: OpenLink;
+	/** Opens the pane header's chat history picker, as `/resume` does. */
+	onOpenHistory?: () => void;
 }) {
 	const { t } = useLingui();
 	const session = useChatSession({ client });
@@ -489,6 +492,7 @@ export function SessionView({
 					isActive={isActive}
 					onCancelTurn={onCancelTurn}
 					onSend={onSend}
+					onOpenHistory={onOpenHistory}
 					promptQueue={heldQueue ?? (held ? undefined : promptQueue)}
 					workspaceId={workspaceId}
 				/>
