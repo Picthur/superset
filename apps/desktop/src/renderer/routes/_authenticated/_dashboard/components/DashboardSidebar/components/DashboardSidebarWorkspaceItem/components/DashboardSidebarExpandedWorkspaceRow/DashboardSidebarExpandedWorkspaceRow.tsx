@@ -35,6 +35,7 @@ import type {
 } from "../../../../types";
 import { DashboardSidebarWorkspaceLeadIndicator } from "../DashboardSidebarWorkspaceLeadIndicator";
 import { DashboardSidebarWorkspaceQueuedBadge } from "../DashboardSidebarWorkspaceQueuedBadge";
+import { DashboardSidebarWorkspaceTerminalCount } from "../DashboardSidebarWorkspaceTerminalCount";
 import { DashboardSidebarOpenCloudHostGlyph } from "./components/DashboardSidebarOpenCloudHostGlyph";
 import { DashboardSidebarPortsChip } from "./components/DashboardSidebarPortsChip";
 import { DashboardSidebarRowEventBoundary } from "./components/DashboardSidebarRowEventBoundary";
@@ -388,6 +389,9 @@ export const DashboardSidebarExpandedWorkspaceRow = forwardRef<
 									workspaceId={workspace.id}
 								/>
 							)}
+							<DashboardSidebarWorkspaceTerminalCount
+								workspaceId={workspace.id}
+							/>
 							<div className="grid items-center justify-items-end [&>*]:col-start-1 [&>*]:row-start-1">
 								{/* Not plain focus-within: a clicked row keeps focus, and the open cloud row's glyph must stay in view while it connects. */}
 								<span
