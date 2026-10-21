@@ -11058,9 +11058,6 @@ msgstr "无匹配项"
 msgid "No matches"
 msgstr "没有匹配项"
 
-msgid "No matching files"
-msgstr "没有匹配的文件"
-
 msgid "No matching MCP servers"
 msgstr "没有匹配的MCP服务器"
 
