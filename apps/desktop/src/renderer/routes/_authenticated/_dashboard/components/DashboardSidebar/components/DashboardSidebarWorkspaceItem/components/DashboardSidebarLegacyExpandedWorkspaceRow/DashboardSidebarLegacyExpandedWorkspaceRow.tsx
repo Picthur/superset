@@ -37,6 +37,7 @@ import { DashboardSidebarWorkspaceChips } from "../DashboardSidebarExpandedWorks
 import { DashboardSidebarWorkspaceIcon } from "../DashboardSidebarWorkspaceIcon";
 import { DashboardSidebarWorkspaceLeadIndicator } from "../DashboardSidebarWorkspaceLeadIndicator";
 import { DashboardSidebarWorkspaceQueuedBadge } from "../DashboardSidebarWorkspaceQueuedBadge";
+import { DashboardSidebarWorkspaceTerminalCount } from "../DashboardSidebarWorkspaceTerminalCount";
 import { DashboardSidebarWorkspaceDiffStats } from "./components/DashboardSidebarWorkspaceDiffStats";
 
 const PR_STATE_LABEL: Record<
@@ -416,6 +417,9 @@ export const DashboardSidebarLegacyExpandedWorkspaceRow = forwardRef<
 										)}
 								</>
 							)}
+							<DashboardSidebarWorkspaceTerminalCount
+								workspaceId={workspace.id}
+							/>
 							{!isPending && !isSelected && shortcutLabel && (
 								<span className="hidden shrink-0 font-mono text-[10px] tabular-nums text-muted-foreground group-hover:inline group-focus-within:inline">
 									{shortcutLabel}

@@ -34,6 +34,7 @@ import type {
 } from "../../../../types";
 import { DashboardSidebarWorkspaceLeadIndicator } from "../DashboardSidebarWorkspaceLeadIndicator";
 import { DashboardSidebarWorkspaceQueuedBadge } from "../DashboardSidebarWorkspaceQueuedBadge";
+import { DashboardSidebarWorkspaceTerminalCount } from "../DashboardSidebarWorkspaceTerminalCount";
 import { DashboardSidebarPortsChip } from "./components/DashboardSidebarPortsChip";
 import { DashboardSidebarRowEventBoundary } from "./components/DashboardSidebarRowEventBoundary";
 import { DashboardSidebarWorkspaceChips } from "./components/DashboardSidebarWorkspaceChips";
@@ -380,6 +381,9 @@ export const DashboardSidebarExpandedWorkspaceRow = forwardRef<
 									workspaceId={workspace.id}
 								/>
 							)}
+							<DashboardSidebarWorkspaceTerminalCount
+								workspaceId={workspace.id}
+							/>
 							<div className="grid items-center justify-items-end [&>*]:col-start-1 [&>*]:row-start-1">
 								<span
 									className={cn(
