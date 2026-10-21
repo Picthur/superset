@@ -112,7 +112,6 @@ export function DashboardSidebarSessionsSection({
 				projectId={null}
 				isCollapsed={isSectionCollapsed}
 				topLevelIndentation="top-level"
-				groupedIndentation="workspace"
 				workspaceShortcutLabels={workspaceShortcutLabels}
 				onWorkspaceHover={onWorkspaceHover}
 				onDeleteSection={onDeleteSection}

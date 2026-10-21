@@ -6,11 +6,11 @@ import type { ActivePaneStatus } from "shared/tabs-types";
 import type {
 	DashboardSidebarWorkspace,
 	DashboardSidebarWorkspacePullRequest,
-} from "../../../../../../types";
+} from "../../../../types";
 import {
 	PR_COLOR_BY_STATE,
 	PR_ICON_BY_STATE,
-} from "../../../DashboardSidebarWorkspaceIcon";
+} from "../DashboardSidebarWorkspaceIcon";
 
 interface DashboardSidebarWorkspaceLeadIndicatorProps {
 	workspaceStatus: ActivePaneStatus | null;
@@ -75,7 +75,9 @@ function pickLead({
 	}
 	return {
 		leadKind: "idle",
-		lead: <span className="size-1.5 rounded-full bg-muted-foreground/50" />,
+		lead: (
+			<span className="size-1.5 rounded-full ring-[1.5px] ring-inset ring-muted-foreground/50" />
+		),
 	};
 }
 

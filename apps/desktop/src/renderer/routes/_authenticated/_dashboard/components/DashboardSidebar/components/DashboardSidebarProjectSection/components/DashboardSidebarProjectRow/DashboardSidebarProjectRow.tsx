@@ -5,12 +5,15 @@ import { type ComponentPropsWithoutRef, forwardRef } from "react";
 import { HiChevronRight, HiMiniPlus } from "react-icons/hi2";
 import { ProjectThumbnail } from "renderer/routes/_authenticated/components/ProjectThumbnail";
 import { RenameInput } from "renderer/screens/main/components/WorkspaceSidebar/RenameInput";
+import { SidebarCounts } from "../../../SidebarCounts";
 
 interface DashboardSidebarProjectRowProps
 	extends ComponentPropsWithoutRef<"div"> {
 	projectName: string;
 	iconUrl: string | null;
 	projectColor: string | null;
+	workspaceCount: number;
+	attentionCount: number;
 	isCollapsed: boolean;
 	isRenaming: boolean;
 	renameValue: string;
@@ -32,6 +35,8 @@ export const DashboardSidebarProjectRow = forwardRef<
 			projectName,
 			iconUrl,
 			projectColor,
+			workspaceCount,
+			attentionCount,
 			isCollapsed,
 			isRenaming,
 			renameValue,
@@ -100,8 +105,14 @@ export const DashboardSidebarProjectRow = forwardRef<
 					)}
 				</div>
 
+				{!isRenaming && workspaceCount > 0 && (
+					<span className="ml-1 shrink-0 text-xs font-normal tabular-nums text-muted-foreground group-hover:hidden group-has-[:focus]:hidden">
+						<SidebarCounts attention={attentionCount} total={workspaceCount} />
+					</span>
+				)}
+
 				{!isRenaming && (
-					<div className="ml-1 flex size-6 shrink-0 items-center justify-center">
+					<div className="ml-1 hidden size-6 shrink-0 items-center justify-center group-hover:flex group-has-[:focus]:flex">
 						<Tooltip delayDuration={500}>
 							<TooltipTrigger asChild>
 								<button

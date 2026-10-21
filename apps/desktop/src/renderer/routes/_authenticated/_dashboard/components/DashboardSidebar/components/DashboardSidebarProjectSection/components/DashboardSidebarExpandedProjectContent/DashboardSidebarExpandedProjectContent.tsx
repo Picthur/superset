@@ -71,6 +71,8 @@ export function DashboardSidebarExpandedProjectContent({
 	onToggleSectionCollapse,
 }: DashboardSidebarExpandedProjectContentProps) {
 	const { t } = useLingui();
+	// Group header chevron centre: 6px margin + lane padding + half the 20px chevron cell.
+	const railOffset = topLevelIndentation === "top-level" ? 24 : 40;
 	const {
 		projectItems,
 		sessionItems,
@@ -186,6 +188,7 @@ export function DashboardSidebarExpandedProjectContent({
 											sortableId={String(id)}
 											workspace={workspace}
 											accentColor={group?.color}
+											railOffset={railOffset}
 											isInSection={isInSection}
 											indentation={
 												isInSection ? groupedIndentation : topLevelIndentation

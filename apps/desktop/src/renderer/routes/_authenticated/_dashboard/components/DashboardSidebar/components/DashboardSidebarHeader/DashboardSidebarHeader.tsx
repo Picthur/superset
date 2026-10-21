@@ -467,7 +467,7 @@ export function DashboardSidebarHeader({
 									aria-label={t({
 										message: "Usage",
 									})}
-									className="flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-fill-hover"
+									className="flex size-7 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-fill-hover hover:text-foreground"
 								>
 									<LuGauge className="size-3.5" strokeWidth={1.5} />
 								</button>
@@ -659,164 +659,140 @@ export function DashboardSidebarHeader({
 				)}
 			</button>
 
-			<button
-				type="button"
-				onClick={handleWorkspacesClick}
-				className={cn(
-					"flex h-7 w-full items-center gap-2 rounded-md px-2 text-[13px] font-medium transition-colors",
-					isWorkspacesListOpen
-						? "bg-fill-selected text-foreground"
-						: "text-muted-foreground hover:bg-fill-hover hover:text-foreground",
-				)}
-			>
-				<LuLayers
-					className="size-4 shrink-0 text-muted-foreground"
-					strokeWidth={1.5}
-				/>
-				<span className="flex-1 text-left">
-					<Trans>Workspaces</Trans>
-				</span>
-			</button>
-
-			<div className="relative">
+			<div className="flex flex-wrap items-center gap-0.5 px-0.5 pt-1">
 				<button
 					type="button"
-					onClick={handleAutomationsClick}
+					title={t({ message: "Workspaces" })}
+					aria-label={t({ message: "Workspaces" })}
+					onClick={handleWorkspacesClick}
+					aria-current={isWorkspacesListOpen ? "page" : undefined}
 					className={cn(
-						"flex h-7 w-full items-center gap-2 rounded-md px-2 text-[13px] font-medium transition-colors",
-						isAutomationsOpen
+						"flex size-7 shrink-0 items-center justify-center rounded-md text-[13px] font-medium transition-colors",
+						isWorkspacesListOpen
 							? "bg-fill-selected text-foreground"
 							: "text-muted-foreground hover:bg-fill-hover hover:text-foreground",
 					)}
 				>
-					<LuClock
+					<LuLayers
 						className="size-4 shrink-0 text-muted-foreground"
 						strokeWidth={1.5}
 					/>
-					<span className="flex-1 text-left">
-						<Trans>Automations</Trans>
-					</span>
 				</button>
-				{myFailedCount > 0 && (
+				<div className="relative">
 					<button
 						type="button"
-						onClick={handleFailedAutomationsClick}
-						title={t({
-							message: `${myFailedCount} of your automations failed their last run`,
-						})}
-						className="absolute right-2 top-1/2 flex h-4 min-w-4 -translate-y-1/2 items-center justify-center rounded-full bg-red-500/15 px-1 text-[10px] font-medium tabular-nums text-red-600 transition-colors hover:bg-red-500/25 dark:text-red-400"
+						title={t({ message: "Automations" })}
+						aria-label={t({ message: "Automations" })}
+						onClick={handleAutomationsClick}
+						aria-current={isAutomationsOpen ? "page" : undefined}
+						className={cn(
+							"flex size-7 shrink-0 items-center justify-center rounded-md text-[13px] font-medium transition-colors",
+							isAutomationsOpen
+								? "bg-fill-selected text-foreground"
+								: "text-muted-foreground hover:bg-fill-hover hover:text-foreground",
+						)}
 					>
-						{myFailedCount > 9 ? "9+" : myFailedCount}
+						<LuClock
+							className="size-4 shrink-0 text-muted-foreground"
+							strokeWidth={1.5}
+						/>
+					</button>
+					{myFailedCount > 0 && (
+						<button
+							type="button"
+							onClick={handleFailedAutomationsClick}
+							title={t({
+								message: `${myFailedCount} of your automations failed their last run`,
+							})}
+							className="absolute -right-0.5 -top-0.5 flex h-3.5 min-w-3.5 items-center justify-center rounded-full bg-red-500/15 px-0.5 text-[9px] font-medium tabular-nums text-red-600 transition-colors hover:bg-red-500/25 dark:text-red-400"
+						>
+							{myFailedCount > 9 ? "9+" : myFailedCount}
+						</button>
+					)}
+				</div>
+				<button
+					type="button"
+					title={t({ message: "Tasks" })}
+					aria-label={t({ message: "Tasks" })}
+					onClick={handleTasksClick}
+					aria-current={isTasksOpen ? "page" : undefined}
+					className={cn(
+						"flex size-7 shrink-0 items-center justify-center rounded-md text-[13px] font-medium transition-colors",
+						isTasksOpen
+							? "bg-fill-selected text-foreground"
+							: "text-muted-foreground hover:bg-fill-hover hover:text-foreground",
+					)}
+				>
+					<HiOutlineClipboardDocumentList className="size-4 shrink-0 text-muted-foreground" />
+				</button>
+				<button
+					type="button"
+					title={t({ message: "Pull requests" })}
+					aria-label={t({ message: "Pull requests" })}
+					onClick={handlePullRequestsClick}
+					aria-current={isPullRequestsOpen ? "page" : undefined}
+					className={cn(
+						"flex size-7 shrink-0 items-center justify-center rounded-md text-[13px] font-medium transition-colors",
+						isPullRequestsOpen
+							? "bg-fill-selected text-foreground"
+							: "text-muted-foreground hover:bg-fill-hover hover:text-foreground",
+					)}
+				>
+					<GoGitPullRequest className="size-4 shrink-0 text-muted-foreground" />
+				</button>
+				{isUsageInSidebarEnabled && (
+					<button
+						type="button"
+						title={t({ message: "Usage" })}
+						aria-label={t({ message: "Usage" })}
+						onClick={handleUsageClick}
+						className="flex size-7 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-fill-hover hover:text-foreground"
+					>
+						<LuGauge
+							className="size-4 shrink-0 text-muted-foreground"
+							strokeWidth={1.5}
+						/>
+					</button>
+				)}
+				<button
+					type="button"
+					title={t({ message: "Pages" })}
+					aria-label={t({ message: "Pages" })}
+					onClick={handlePagesClick}
+					aria-current={isPagesOpen ? "page" : undefined}
+					className={cn(
+						"flex size-7 shrink-0 items-center justify-center rounded-md text-[13px] font-medium transition-colors",
+						isPagesOpen
+							? "bg-fill-selected text-foreground"
+							: "text-muted-foreground hover:bg-fill-hover hover:text-foreground",
+					)}
+				>
+					<LuFileText
+						className="size-4 shrink-0 text-muted-foreground"
+						strokeWidth={1.5}
+					/>
+				</button>
+				{isPluginsEnabled && (
+					<button
+						type="button"
+						title={t({ message: "Plugins" })}
+						aria-label={t({ message: "Plugins" })}
+						onClick={handlePluginsClick}
+						aria-current={isPluginsOpen ? "page" : undefined}
+						className={cn(
+							"flex size-7 shrink-0 items-center justify-center rounded-md text-[13px] font-medium transition-colors",
+							isPluginsOpen
+								? "bg-fill-selected text-foreground"
+								: "text-muted-foreground hover:bg-fill-hover hover:text-foreground",
+						)}
+					>
+						<LuPuzzle
+							className="size-4 shrink-0 text-muted-foreground"
+							strokeWidth={1.5}
+						/>
 					</button>
 				)}
 			</div>
-
-			<button
-				type="button"
-				onClick={handleTasksClick}
-				aria-label={t({
-					message: "Tasks",
-				})}
-				aria-current={isTasksOpen ? "page" : undefined}
-				className={cn(
-					"flex h-7 w-full items-center gap-2 rounded-md px-2 text-[13px] font-medium transition-colors",
-					isTasksOpen
-						? "bg-fill-selected text-foreground"
-						: "text-muted-foreground hover:bg-fill-hover hover:text-foreground",
-				)}
-			>
-				<HiOutlineClipboardDocumentList className="size-4 shrink-0 text-muted-foreground" />
-				<span className="flex-1 text-left">
-					<Trans>Tasks</Trans>
-				</span>
-			</button>
-
-			<button
-				type="button"
-				onClick={handlePullRequestsClick}
-				aria-label={t({
-					message: "Pull requests",
-				})}
-				aria-current={isPullRequestsOpen ? "page" : undefined}
-				className={cn(
-					"flex h-7 w-full items-center gap-2 rounded-md px-2 text-[13px] font-medium transition-colors",
-					isPullRequestsOpen
-						? "bg-fill-selected text-foreground"
-						: "text-muted-foreground hover:bg-fill-hover hover:text-foreground",
-				)}
-			>
-				<GoGitPullRequest className="size-4 shrink-0 text-muted-foreground" />
-				<span className="flex-1 text-left">
-					<Trans>Pull requests</Trans>
-				</span>
-			</button>
-
-			{isUsageInSidebarEnabled && (
-				<button
-					type="button"
-					onClick={handleUsageClick}
-					aria-label={t({
-						message: "Usage",
-					})}
-					className="flex h-7 w-full items-center gap-2 rounded-md px-2 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-fill-hover hover:text-foreground"
-				>
-					<LuGauge
-						className="size-4 shrink-0 text-muted-foreground"
-						strokeWidth={1.5}
-					/>
-					<span className="flex-1 text-left">
-						<Trans>Usage</Trans>
-					</span>
-				</button>
-			)}
-
-			<button
-				type="button"
-				onClick={handlePagesClick}
-				aria-label={t({
-					message: "Pages",
-				})}
-				aria-current={isPagesOpen ? "page" : undefined}
-				className={cn(
-					"flex h-7 w-full items-center gap-2 rounded-md px-2 text-[13px] font-medium transition-colors",
-					isPagesOpen
-						? "bg-fill-selected text-foreground"
-						: "text-muted-foreground hover:bg-fill-hover hover:text-foreground",
-				)}
-			>
-				<LuFileText
-					className="size-4 shrink-0 text-muted-foreground"
-					strokeWidth={1.5}
-				/>
-				<span className="flex-1 text-left">
-					<Trans>Pages</Trans>
-				</span>
-			</button>
-
-			{isPluginsEnabled && (
-				<button
-					type="button"
-					onClick={handlePluginsClick}
-					aria-label={t({
-						message: "Plugins",
-					})}
-					aria-current={isPluginsOpen ? "page" : undefined}
-					className={cn(
-						"flex h-7 w-full items-center gap-2 rounded-md px-2 text-[13px] font-medium transition-colors",
-						isPluginsOpen
-							? "bg-fill-selected text-foreground"
-							: "text-muted-foreground hover:bg-fill-hover hover:text-foreground",
-					)}
-				>
-					<LuPuzzle
-						className="size-4 shrink-0 text-muted-foreground"
-						strokeWidth={1.5}
-					/>
-					<span className="flex-1 text-left">
-						<Trans>Plugins</Trans>
-					</span>
-				</button>
-			)}
 		</div>
 	);
 }
