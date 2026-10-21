@@ -126,8 +126,13 @@ function releaseDownloadPromise(result: UpdateCheckResult | null): void {
 // hours later. The desktop copies the user's login-shell environment into
 // process.env, so a shell export reaches Squirrel too. Honour the variable the
 // way Squirrel does and skip the check.
+const IS_CUSTOM_BUILD = app.getName() === "Superset Custom";
+
 function isUpdateCheckDisabledByEnvironment(): boolean {
-	return PLATFORM.IS_MAC && process.env.DISABLE_UPDATE_CHECK !== undefined;
+	return (
+		IS_CUSTOM_BUILD ||
+		(PLATFORM.IS_MAC && process.env.DISABLE_UPDATE_CHECK !== undefined)
+	);
 }
 
 let currentStatus: AutoUpdateStatus = AUTO_UPDATE_STATUS.IDLE;
@@ -437,7 +442,11 @@ export function simulateError(): void {
 }
 
 export function setupAutoUpdater(): void {
-	if (env.NODE_ENV === "development" || !IS_AUTO_UPDATE_PLATFORM) {
+	if (
+		env.NODE_ENV === "development" ||
+		!IS_AUTO_UPDATE_PLATFORM ||
+		IS_CUSTOM_BUILD
+	) {
 		return;
 	}
 
